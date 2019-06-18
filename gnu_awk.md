@@ -100,7 +100,7 @@ DESCRIPTION
     * `$(NF-1)` will give second last field and so on
 
 ```bash
-$ cat fruits.txt 
+$ cat fruits.txt
 fruit   qty
 apple   42
 banana  31
@@ -108,7 +108,7 @@ fig     90
 guava   6
 
 $ # print only first field
-$ awk '{print $1}' fruits.txt 
+$ awk '{print $1}' fruits.txt
 fruit
 apple
 banana
@@ -116,7 +116,7 @@ fig
 guava
 
 $ # print only second field
-$ awk '{print $2}' fruits.txt 
+$ awk '{print $2}' fruits.txt
 qty
 42
 31
@@ -215,6 +215,7 @@ $ printf 'hi👍 how are you?' | awk -v FS= '{print $3}'
 * [gawk manual - Field Splitting Summary](https://www.gnu.org/software/gawk/manual/html_node/Field-Splitting-Summary.html#Field-Splitting-Summary)
 * [stackoverflow - explanation on default FS](https://stackoverflow.com/questions/30405694/default-field-separator-for-awk)
 * [unix.stackexchange - filter lines if it contains a particular character only once](https://unix.stackexchange.com/questions/362550/how-to-remove-line-if-it-contains-a-character-exactly-once)
+* [stackoverflow - Processing 2 files with different field separators](https://stackoverflow.com/questions/24516141/awk-processing-2-files-with-different-field-separators)
 
 <br>
 
@@ -264,7 +265,7 @@ Sample string with numbers
 * `1` is typically used to represent always true condition and thus print contents of `$0`
 
 ```bash
-$ cat poem.txt 
+$ cat poem.txt
 Roses are red,
 Violets are blue,
 Sugar is sweet,
@@ -272,7 +273,7 @@ And so are you.
 
 $ # displaying contents of input file(s) similar to 'cat' command
 $ # equivalent to using awk '{print $0}' and awk '1'
-$ awk '{print}' poem.txt 
+$ awk '{print}' poem.txt
 Roses are red,
 Violets are blue,
 Sugar is sweet,
@@ -288,13 +289,13 @@ And so are you.
 
 ```bash
 $ # if first field exactly matches the string 'apple'
-$ awk '$1=="apple"{print $2}' fruits.txt 
+$ awk '$1=="apple"{print $2}' fruits.txt
 42
 
 $ # print first field if second field > 35
 $ # NR>1 to avoid the header line
 $ # NR built-in variable contains record number
-$ awk 'NR>1 && $2>35{print $1}' fruits.txt 
+$ awk 'NR>1 && $2>35{print $1}' fruits.txt
 apple
 fig
 
@@ -314,7 +315,7 @@ guava   6
     * Of course, for medium to large programs, it is better to put the code in separate file. See [awk scripts](#awk-scripts) section
 
 ```bash
-$ # awk '$1=="apple"{print $2}' fruits.txt 
+$ # awk '$1=="apple"{print $2}' fruits.txt
 $ awk '{
          if($1 == "apple"){
             print $2
@@ -401,18 +402,18 @@ $ awk '$0 ~ "/foo/a/"' paths.txt
 
 ```bash
 $ # if first field contains 'a'
-$ awk '$1 ~ /a/' fruits.txt 
+$ awk '$1 ~ /a/' fruits.txt
 apple   42
 banana  31
 guava   6
 
 $ # if first field contains 'a' and qty > 20
-$ awk '$1 ~ /a/ && $2 > 20' fruits.txt 
+$ awk '$1 ~ /a/ && $2 > 20' fruits.txt
 apple   42
 banana  31
 
 $ # if first field does NOT contain 'a'
-$ awk '$1 !~ /a/' fruits.txt 
+$ awk '$1 !~ /a/' fruits.txt
 fruit   qty
 fig     90
 ```
@@ -427,7 +428,7 @@ fig     90
 
 ```bash
 $ cat eqns.txt
-a=b,a+b=c,c*d
+a=b,a-b=c,c*d
 a+b,pi=3.14,5e12
 i*(t+9-g)/8,4-a+b
 
@@ -476,20 +477,20 @@ i*(t+9-g)/8,4-a+b
 
 ```bash
 $ # same as: head -n2 poem.txt | tail -n1
-$ awk 'NR==2' poem.txt 
+$ awk 'NR==2' poem.txt
 Violets are blue,
 
 $ # print 2nd and 4th line
-$ awk 'NR==2 || NR==4' poem.txt 
+$ awk 'NR==2 || NR==4' poem.txt
 Violets are blue,
 And so are you.
 
 $ # same as: tail -n1 poem.txt
 $ # statements inside END are executed after processing all input text
-$ awk 'END{print}' poem.txt 
+$ awk 'END{print}' poem.txt
 And so are you.
 
-$ awk 'NR==4{print $2}' fruits.txt 
+$ awk 'NR==4{print $2}' fruits.txt
 90
 ```
 
@@ -521,16 +522,16 @@ sys     0m0.092s
 ## <a name="case-insensitive-filtering"></a>Case Insensitive filtering
 
 ```bash
-$ # same as: grep -i 'rose' poem.txt 
-$ awk -v IGNORECASE=1 '/rose/' poem.txt 
+$ # same as: grep -i 'rose' poem.txt
+$ awk -v IGNORECASE=1 '/rose/' poem.txt
 Roses are red,
 
 $ # for small enough set, can also use REGEXP character class
-$ awk '/[rR]ose/' poem.txt 
+$ awk '/[rR]ose/' poem.txt
 Roses are red,
 
 $ # another way is to use built-in string function 'tolower'
-$ awk 'tolower($0) ~ /rose/' poem.txt 
+$ awk 'tolower($0) ~ /rose/' poem.txt
 Roses are red,
 ```
 
@@ -577,6 +578,7 @@ $ seq 3 | awk -v ORS='\n\n' '{print $0}'
 3
 
 $ # dynamically changing ORS
+$ # ?: ternary operator to select between two expressions based on a condition
 $ # can also use: seq 6 | awk '{ORS = NR%2 ? " " : RS} 1'
 $ seq 6 | awk '{ORS = NR%2 ? " " : "\n"} 1'
 1 2
@@ -686,7 +688,7 @@ Much ado about nothing. He he he
 * Some marker like `Error` or `Warning` etc
 
 ```bash
-$ cat report.log 
+$ cat report.log
 blah blah
 Error: something went wrong
 more blah
@@ -777,7 +779,7 @@ $ # easier: perl -pe 's/-\n//' msg.txt as newline is still part of input line
 
 ```bash
 $ printf 'foo\0bar\0' | cat -A
-foo^@bar^@$ 
+foo^@bar^@$
 $ printf 'foo\0bar\0' | awk -v RS='\0' '{print}'
 foo
 bar
@@ -899,12 +901,12 @@ $ echo 'foo:123:bar:baz' | awk -v dq='"' '{$0=gensub(/[^:]+/, dq"&"dq, "g")} 1'
 * Use this option with caution, preferably after testing that the `awk` code is working as intended
 
 ```bash
-$ cat greeting.txt 
+$ cat greeting.txt
 Hi there
 Have a nice day
 
-$ awk -i inplace '{gsub("e", "E")} 1' greeting.txt 
-$ cat greeting.txt 
+$ awk -i inplace '{gsub("e", "E")} 1' greeting.txt
+$ cat greeting.txt
 Hi thErE
 HavE a nicE day
 ```
@@ -1026,12 +1028,12 @@ foo and bar XYZ baz land good
 
 ```bash
 $ # NR for overall record number
-$ awk 'NR==1' poem.txt greeting.txt 
+$ awk 'NR==1' poem.txt greeting.txt
 Roses are red,
 
 $ # FNR for individual file's record number
 $ # same as: head -q -n1 poem.txt greeting.txt
-$ awk 'FNR==1' poem.txt greeting.txt 
+$ awk 'FNR==1' poem.txt greeting.txt
 Roses are red,
 Hi thErE
 ```
@@ -1094,7 +1096,7 @@ Total input files: 2
 Remember that by default there is a loop that goes over all input records and constructs like `BEGIN` and `END` fall outside that loop
 
 ```bash
-$ cat nums.txt 
+$ cat nums.txt
 42
 -2
 10101
@@ -1109,7 +1111,11 @@ $ printf '' | awk '{sum += $1} END{print sum}'
 $ # so either add '0' or use unary '+' operator to convert to number
 $ printf '' | awk '{sum += $1} END{print +sum}'
 0
+$ awk '{sum += $1} END{print sum+0}' /dev/null
+0
 ```
+
+* See also [unix.stackexchange - change in behavior of unary + with gawk version 4.2.0](https://unix.stackexchange.com/questions/421904/regression-with-unary-plus)
 
 <br>
 
@@ -1119,7 +1125,7 @@ $ printf '' | awk '{sum += $1} END{print +sum}'
 * See also [gawk manual - Switch](https://www.gnu.org/software/gawk/manual/html_node/Switch-Statement.html)
 
 ```bash
-$ # same as: sed -n '/are/ s/so/SO/p' poem.txt 
+$ # same as: sed -n '/are/ s/so/SO/p' poem.txt
 $ # remember that sub/gsub returns number of substitutions made
 $ awk '/are/{if(sub("so", "SO")) print}' poem.txt
 And SO are you.
@@ -1136,11 +1142,11 @@ fruit   qty
 -guava   6
 ```
 
-* conditional operator
+* ternary operator
 * See also [stackoverflow - finding min and max value of a column](https://stackoverflow.com/a/29784278/4082052)
 
 ```bash
-$ cat nums.txt 
+$ cat nums.txt
 42
 -2
 10101
@@ -1251,18 +1257,18 @@ colors_2.txt
 * Processing consecutive lines
 
 ```bash
-$ cat poem.txt 
+$ cat poem.txt
 Roses are red,
 Violets are blue,
 Sugar is sweet,
 And so are you.
 
 $ # match two consecutive lines
-$ awk 'p~/are/ && /is/{print p ORS $0} {p=$0}' poem.txt 
+$ awk 'p~/are/ && /is/{print p ORS $0} {p=$0}' poem.txt
 Violets are blue,
 Sugar is sweet,
 $ # if only the second line is needed
-$ awk 'p~/are/ && /is/; {p=$0}' poem.txt 
+$ awk 'p~/are/ && /is/; {p=$0}' poem.txt
 Sugar is sweet,
 
 $ # match three consecutive lines
@@ -1270,9 +1276,9 @@ $ awk 'p2~/red/ && p1~/blue/ && /is/{print p2} {p2=p1; p1=$0}' poem.txt
 Roses are red,
 
 $ # common mistake
-$ sed -n '/are/{N;/is/p}' poem.txt 
+$ sed -n '/are/{N;/is/p}' poem.txt
 $ # would need something like this and not practical to extend for other cases
-$ sed '$!N; /are.*\n.*is/p; D' poem.txt 
+$ sed '$!N; /are.*\n.*is/p; D' poem.txt
 Violets are blue,
 Sugar is sweet,
 ```
@@ -1280,7 +1286,7 @@ Sugar is sweet,
 Consider this sample input file
 
 ```bash
-$ cat range.txt 
+$ cat range.txt
 foo
 BEGIN
 1234
@@ -1305,7 +1311,7 @@ baz
         * `0 && ` - evaluates to `false` ... no decrementing `n` and hence will be `false` until `n` is re-assigned non-zero value
 
 ```bash
-$ # similar to: grep --no-group-separator -A1 'BEGIN' range.txt 
+$ # similar to: grep --no-group-separator -A1 'BEGIN' range.txt
 $ awk '/BEGIN/{n=2} n && n--' range.txt
 BEGIN
 1234
@@ -1314,7 +1320,7 @@ a
 
 $ # only print the line after matching line
 $ # can also use: awk '/BEGIN/{n=1; next} n && n--' range.txt
-$ awk 'n && n--; /BEGIN/{n=1}' range.txt 
+$ awk 'n && n--; /BEGIN/{n=1}' range.txt
 1234
 a
 $ # generic case: print nth line after match
@@ -1348,6 +1354,12 @@ sample.txt
 $ awk 'FNR==1{s1=s2=0} /foo/{s1=1} /report/{s2=1} s1&&s2{print FILENAME; nextfile}' *
 paths.txt
 ```
+
+**Further Reading**
+
+* [stackoverflow - delete line based on content of previous/next lines](https://stackoverflow.com/questions/49112877/delete-line-if-line-matches-foo-line-above-matches-bar-and-line-below-match)
+* [softwareengineering - FSM examples](https://softwareengineering.stackexchange.com/questions/47806/examples-of-finite-state-machines)
+* [wikipedia - FSM](https://en.wikipedia.org/wiki/Finite-state_machine)
 
 <br>
 
@@ -1501,13 +1513,16 @@ ECE     Om      92
 
 #### <a name="getline"></a>getline
 
-* If entire line (instead of fields) from one file is needed to change the other file, using `getline` would be faster
+* `getline` is an alternative way to read from a file and could be faster than `NR==FNR` method for some cases
 * But use it with caution
     * [gawk manual - getline](https://www.gnu.org/software/gawk/manual/html_node/Getline.html) for details, especially about corner cases, errors, etc
+    * [getline caveats](https://web.archive.org/web/20170524214527/http://awk.freeshell.org/AllAboutGetline)
     * [gawk manual - Closing Input and Output Redirections](https://www.gnu.org/software/gawk/manual/html_node/Close-Files-And-Pipes.html) if you have to start from beginning of file again
+* `getline` return value: `1` if record is found, `0` if end of file, `-1` for errors such as file not found (use `ERRNO` variable to get details)
 
 ```bash
 $ # replace mth line in poem.txt with nth line from nums.txt
+$ # return value handling is not shown here, but should be done ideally
 $ awk -v m=3 -v n=2 'BEGIN{while(n-- > 0) getline s < "nums.txt"}
                      FNR==m{$0=s} 1' poem.txt
 Roses are red,
@@ -1522,14 +1537,18 @@ Roses are red,
 Violets are blue,
 -2
 And so are you.
+
+$ # Note that if nums.txt has less than n lines:
+$ # getline version will use last line of nums.txt if any
+$ # NR==FNR version will give empty string as 's' would be uninitialized
 ```
 
-* Another use case is if two files are to be processed exactly for same line numbers
+* Another use case is if two files are to be processed simultaneously
 
 ```bash
-
 $ # print line from fruits.txt if corresponding line from nums.txt is +ve number
-$ awk -v file='nums.txt' '{getline num < file; if(num>0) print}' fruits.txt
+$ # the return value check ensures corresponding line number comparison
+$ awk -v file='nums.txt' '(getline num < file)==1 && num>0' fruits.txt
 fruit   qty
 banana  31
 
@@ -1537,6 +1556,18 @@ $ # without getline, but has to save entire file in array
 $ awk 'NR==FNR{n[FNR]=$0; next} n[FNR]>0' nums.txt fruits.txt
 fruit   qty
 banana  31
+```
+
+* error handling
+
+```bash
+$ awk 'NR==FNR{n[FNR]=$0; next} n[FNR]>0' xyz.txt fruits.txt
+awk: fatal: cannot open file 'xyz.txt' for reading (No such file or directory)
+
+$ awk -v file='xyz.txt' '{ e=(getline num < file);
+                           if(e<0){print file ": " ERRNO; exit} }
+                         e==1 && num>0' fruits.txt
+xyz.txt: No such file or directory
 ```
 
 **Further Reading**
@@ -1565,10 +1596,14 @@ foo,bar,123,baz,
 $ # assigning to field greater than NF will create empty fields as needed
 $ echo 'foo,bar,123,baz' | awk -F, -v OFS=, '{$7=42} 1'
 foo,bar,123,baz,,,42
+```
 
+* adding a field based on existing fields
+
+```bash
 $ # adding a new 'Grade' field
 $ awk 'BEGIN{OFS="\t"; g[9]="S"; g[8]="A"; g[7]="B"; g[6]="C"; g[5]="D"}
-      {NF++; if(NR==1)$NF="Grade"; else $NF=g[int($(NF-1)/10)]} 1' marks.txt
+      {NF++; $NF = NR==1 ? "Grade" : g[int($(NF-1)/10)]} 1' marks.txt
 Dept    Name    Marks   Grade
 ECE     Raj     53      D
 ECE     Joel    72      B
@@ -1577,6 +1612,10 @@ CSE     Surya   81      A
 EEE     Tia     59      D
 ECE     Om      92      S
 CSE     Amy     67      C
+
+$ # can also use split (covered in a later section)
+$ # array assignment: split("DCBAS",g,//)
+$ # index adjustment: g[int($(NF-1)/10)-4]
 ```
 
 * two file example
@@ -1588,7 +1627,7 @@ Amy sports_rep
 Tia placement_rep
 
 $ awk -v OFS='\t' 'NR==FNR{r[$1]=$2; next}
-         {NF++; if(FNR==1)$NF="Role"; else $NF=r[$2]} 1' list4 marks.txt
+         {NF++; $NF = NR==1 ? "Role" : $NF=r[$2]} 1' list4 marks.txt
 Dept    Name    Marks   Role
 ECE     Raj     53      class_rep
 ECE     Joel    72
@@ -1630,6 +1669,8 @@ dam
 ```
 
 * first, examples that retain only first copy of duplicates
+* See also [iridakos: remove duplicates](https://iridakos.com/how-to/2019/05/16/remove-duplicate-lines-preserving-order-linux.html) for a detailed explanation
+* See also [stackoverflow - add a letter to duplicate entries](https://stackoverflow.com/questions/47774779/add-letter-to-second-third-fourth-occurrence-of-a-string)
 
 ```bash
 $ cat duplicates.txt
@@ -1672,9 +1713,10 @@ $ awk -M '!($2 in seen){c++} {seen[$2]} END{print +c}' duplicates.txt
 
 * For multiple fields, separate them using `,` or form a string with some character in between
     * choose a character unlikely to appear in input data, else there can be false matches
+    * `FS` is a good choice as fields wouldn't contain separator character(s)
 
 ```bash
-$ awk '!seen[$2"_"$3]++' duplicates.txt
+$ awk '!seen[$2 FS $3]++' duplicates.txt
 abc  7   4
 food toy ****
 test toy 123
@@ -1750,7 +1792,7 @@ test toy 123
 Consider the below sample input file, which doesn't have any unbroken blocks (i.e **BEGIN** and **END** are always present in pairs)
 
 ```bash
-$ cat range.txt 
+$ cat range.txt
 foo
 BEGIN
 1234
@@ -1827,7 +1869,7 @@ baz
 
 $ # the other three cases would be
 $ awk '/END/{f=0} !f; /BEGIN/{f=1}' range.txt
-$ awk '!f; /BEGIN/{f=1} /END/{f=0}' range.txt 
+$ awk '!f; /BEGIN/{f=1} /END/{f=0}' range.txt
 $ awk '/BEGIN/{f=1} /END/{f=0} !f' range.txt
 ```
 
@@ -1838,7 +1880,7 @@ $ awk '/BEGIN/{f=1} /END/{f=0} !f' range.txt
 * Getting first block
 
 ```bash
-$ awk '/BEGIN/{f=1} f; /END/{exit}' range.txt 
+$ awk '/BEGIN/{f=1} f; /END/{exit}' range.txt
 BEGIN
 1234
 6789
@@ -1946,7 +1988,7 @@ END
 * But if both kinds of broken blocks are present, accumulate the records and print accordingly
 
 ```bash
-$ cat multiple_broken.txt 
+$ cat multiple_broken.txt
 qqqqqqq
 BEGIN
 foo
@@ -1962,7 +2004,7 @@ a
 BEGIN
 b
 END
-;as;s;sd;
+xyzabc
 
 $ awk '/BEGIN/{f=1; buf=$0; next}
        f{buf=buf ORS $0}
@@ -1982,6 +2024,7 @@ END
 * [unix.stackexchange - print only blocks with lines > n](https://unix.stackexchange.com/questions/295600/deleting-lines-between-rows-in-a-text-file-using-awk-or-sed)
 * [unix.stackexchange - print a block only if it contains matching string](https://unix.stackexchange.com/a/335523/109046)
 * [unix.stackexchange - print a block matching two different strings](https://unix.stackexchange.com/questions/347368/grep-with-range-and-pass-three-filters)
+* [unix.stackexchange - extract block up to 2nd occurrence of ending REGEXP](https://unix.stackexchange.com/questions/404175/using-awk-to-print-lines-from-one-match-through-a-second-instance-of-a-separate)
 
 <br>
 
@@ -2096,7 +2139,7 @@ f{
     buf=""
 }
 
-$ awk -f buf.awk multiple_broken.txt 
+$ awk -f buf.awk multiple_broken.txt
 BEGIN
 1234
 6789
@@ -2227,6 +2270,7 @@ guava   6
 * [unix.stackexchange - Modify records in fixed-width files](https://unix.stackexchange.com/questions/368574/modify-records-in-fixed-width-files)
 * [unix.stackexchange - detecting empty fields in fixed width files](https://unix.stackexchange.com/questions/321559/extracting-data-with-awk-when-some-lines-have-empty-missing-values)
 * [stackoverflow - count number of times value is repeated each line](https://stackoverflow.com/questions/37450880/how-do-i-filter-tab-separated-input-by-the-count-of-fields-with-a-given-value)
+* [stackoverflow - skip characters with FIELDWIDTHS in GNU Awk 4.2](https://stackoverflow.com/questions/46932189/how-do-you-skip-characters-with-fieldwidths-in-gnu-awk-4-2)
 
 <br>
 
@@ -2426,6 +2470,8 @@ $ awk 'BEGIN{s="solve: 5 % x = 1"; printf "%s\n", s}'
 solve: 5 % x = 1
 ```
 
+* See also [stackoverflow - concatenating columns in middle](https://stackoverflow.com/questions/49135518/linux-csv-file-concatenate-columns-into-one-column)
+
 <br>
 
 #### <a name="redirecting-print-output"></a>Redirecting print output
@@ -2527,7 +2573,7 @@ bar foo
 789 123
 ```
 
-* relying on default intial value
+* relying on default initial value
 
 ```bash
 $ # step 1 - works for single file
@@ -2627,14 +2673,14 @@ real    0m0.045s
     * [awk FAQ](http://www.faqs.org/faqs/computer-lang/awk/faq/) - from 2002, but plenty of information, especially about all the various `awk` implementations
 * What's up with different `awk` versions?
     * [unix.stackexchange - brief explanation](https://unix.stackexchange.com/questions/29576/difference-between-gawk-vs-awk)
-    * [Differences between gawk, nawk, mawk, and POSIX awk](https://www.reddit.com/r/awk/comments/4omosp/differences_between_gawk_nawk_mawk_and_posix_awk/)
-    * [cheat sheet for awk/nawk/gawk](http://www.catonmat.net/download/awk.cheat.sheet.txt)
+    * [Differences between gawk, nawk, mawk, and POSIX awk](https://archive.is/btGky)
+    * [cheat sheet for awk/nawk/gawk](https://catonmat.net/ftp/awk.cheat.sheet.txt)
 * Tutorials and Q&A
     * [code.snipcademy - gentle intro](https://code.snipcademy.com/tutorials/shell-scripting/awk/introduction)
     * [funtoo - using examples](https://www.funtoo.org/Awk_by_Example,_Part_1)
-    * [grymoire - detailed tutorial](http://www.grymoire.com/Unix/Awk.html) - covers information about different `awk` versions as well
-    * [catonmat - one liners explained](http://www.catonmat.net/series/awk-one-liners-explained)
-    * [Why Learn AWK?](http://blog.jpalardy.com/posts/why-learn-awk/)
+    * [grymoire - detailed tutorial](https://www.grymoire.com/Unix/Awk.html) - covers information about different `awk` versions as well
+    * [catonmat - one liners explained](https://catonmat.net/awk-one-liners-explained-part-one)
+    * [Why Learn AWK?](https://blog.jpalardy.com/posts/why-learn-awk/)
     * [awk Q&A on stackoverflow](https://stackoverflow.com/questions/tagged/awk?sort=votes&pageSize=15)
     * [awk Q&A on unix.stackexchange](https://unix.stackexchange.com/questions/tagged/awk?sort=votes&pageSize=15)
 * Alternatives
@@ -2647,11 +2693,13 @@ real    0m0.045s
     * [unix.stackexchange - When to use grep, sed, awk, perl, etc](https://unix.stackexchange.com/questions/303044/when-to-use-grep-less-awk-sed)
     * [awk-libs](https://github.com/e36freak/awk-libs) - lots of useful functions
     * [awkaster](https://github.com/TheMozg/awk-raycaster) - Pseudo-3D shooter written completely in awk using raycasting technique
-    * [awk REPL](http://awk.js.org/) - live editor on browser
+    * [awk REPL](https://awk.js.org/) - live editor on browser
 * examples for some of the stuff not covered in this tutorial
     * [unix.stackexchange - rand/srand](https://unix.stackexchange.com/questions/372816/awk-get-random-lines-of-file-satisfying-a-condition)
     * [unix.stackexchange - strftime](https://unix.stackexchange.com/questions/224969/current-date-in-awk)
     * [unix.stackexchange - ARGC and ARGV](https://unix.stackexchange.com/questions/222146/awk-does-not-end/222150#222150)
     * [stackoverflow - arbitrary precision integer extension](https://stackoverflow.com/questions/46904447/strange-output-while-comparing-engineering-numbers-in-awk)
+    * [stackoverflow - recognizing hexadecimal numbers](https://stackoverflow.com/questions/3683110/how-to-make-calculations-on-hexadecimal-numbers-with-awk)
     * [unix.stackexchange - sprintf and close](https://unix.stackexchange.com/questions/223727/splitting-file-for-every-10000-numbers-not-lines/223739#223739)
     * [unix.stackexchange - user defined functions and array passing](https://unix.stackexchange.com/questions/72469/gawk-passing-arrays-to-functions)
+    * [unix.stackexchange - rename csv files based on number of fields in header row](https://unix.stackexchange.com/questions/408742/count-number-of-columns-in-csv-files-and-rename-if-less-than-11-columns)

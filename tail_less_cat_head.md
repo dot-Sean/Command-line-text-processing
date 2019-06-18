@@ -33,6 +33,9 @@
 ## <a name="cat"></a>cat
 
 ```bash
+$ cat --version | head -n1
+cat (GNU coreutils) 8.25
+
 $ man cat
 CAT(1)                           User Commands                          CAT(1)
 
@@ -141,11 +144,11 @@ $ cat -n marks_201*
 
 $ # number only non-empty lines
 $ printf 'hello\n\n\nworld\n\nhave a nice day\n' | cat -sb
-     1	hello
+     1  hello
 
-     2	world
+     2  world
 
-     3	have a nice day
+     3  have a nice day
 ```
 
 * For more numbering options, check out the command `nl`
@@ -163,7 +166,7 @@ nl (1)               - number lines of files
 * Useful for example to see trailing spaces
 
 ```bash
-$ cat -E marks_2015.txt 
+$ cat -E marks_2015.txt
 Name    Maths   Science $
 foo     67      78$
 bar     87      85$
@@ -172,7 +175,7 @@ bar     87      85$
 * TAB identified by `^I`
 
 ```bash
-$ cat -T marks_2015.txt 
+$ cat -T marks_2015.txt
 Name^IMaths^IScience 
 foo^I67^I78
 bar^I87^I85
@@ -207,7 +210,7 @@ $ cat > sample.txt
 This is an example of adding text to a new file using cat command.
 Press Ctrl+d on a newline to save and quit.
 
-$ cat sample.txt 
+$ cat sample.txt
 This is an example of adding text to a new file using cat command.
 Press Ctrl+d on a newline to save and quit.
 ```
@@ -223,23 +226,26 @@ Press Ctrl+d on a newline to save and quit.
 ```bash
 $ whatis tac
 tac (1)              - concatenate and print files in reverse
+$ tac --version | head -n1
+tac (GNU coreutils) 8.25
 
 $ seq 3 | tac
 3
 2
 1
 
-$ tac marks_2015.txt 
-bar	87	85
-foo	67	78
-Name	Maths	Science 
+$ tac marks_2015.txt
+bar     87      85
+foo     67      78
+Name    Maths   Science
 ```
 
 * Useful in cases where logic is easier to write when working on reversed file
 * Consider this made up log file, many **Warning** lines but need to extract only from last such **Warning** upto **Error** line
+    * See [GNU sed chapter](./gnu_sed.md#lines-between-two-regexps) for details on the `sed` command used below
 
 ```bash
-$ cat report.log 
+$ cat report.log
 blah blah
 Warning: something went wrong
 more blah
@@ -321,8 +327,8 @@ $ cat marks_201* | grep -c 'foo'
 ## <a name="less"></a>less
 
 ```bash
-$ whatis less
-less (1)             - opposite of more
+$ less --version | head -n1
+less 481 (GNU regular expressions)
 
 $ # By default, pager is used to display the man pages
 $ # and usually, pager is linked to less command
@@ -330,7 +336,7 @@ $ type pager less
 pager is /usr/bin/pager
 less is /usr/bin/less
 
-$ realpath /usr/bin/pager 
+$ realpath /usr/bin/pager
 /bin/less
 $ realpath /usr/bin/less
 /bin/less
@@ -373,6 +379,9 @@ Commonly used commands are given below, press `h` for summary of options
 ## <a name="tail"></a>tail
 
 ```bash
+$ tail --version | head -n1
+tail (GNU coreutils) 8.25
+
 $ man tail
 TAIL(1)                          User Commands                         TAIL(1)
 
@@ -397,14 +406,14 @@ DESCRIPTION
 Consider this sample file, with line numbers prefixed
 
 ```bash
-$ cat sample.txt 
- 1) Hello World!
+$ cat sample.txt
+ 1) Hello World
  2) 
  3) Good day
- 4) How do you do?
+ 4) How are you
  5) 
- 6) Just do it
- 7) Believe it!
+ 6) Just do-it
+ 7) Believe it
  8) 
  9) Today is sunny
 10) Not a bit funny
@@ -418,9 +427,9 @@ $ cat sample.txt
 * default behavior - display last 10 lines
 
 ```bash
-$ tail sample.txt 
- 6) Just do it
- 7) Believe it!
+$ tail sample.txt
+ 6) Just do-it
+ 7) Believe it
  8) 
  9) Today is sunny
 10) Not a bit funny
@@ -434,13 +443,13 @@ $ tail sample.txt
 * Use `-n` option to control number of lines to filter
 
 ```bash
-$ tail -n3 sample.txt 
+$ tail -n3 sample.txt
 13) Much ado about nothing
 14) He he he
 15) Adios amigo
 
 $ # some versions of tail allow to skip explicit n character
-$ tail -5 sample.txt 
+$ tail -5 sample.txt
 11) No doubt you like it too
 12) 
 13) Much ado about nothing
@@ -451,7 +460,7 @@ $ tail -5 sample.txt
 * when number is prefixed with `+` sign, all lines are fetched from that particular line number to end of file
 
 ```bash
-$ tail -n +10 sample.txt 
+$ tail -n +10 sample.txt
 10) Not a bit funny
 11) No doubt you like it too
 12) 
@@ -486,7 +495,7 @@ i there!
 #### <a name="multiple-file-input-for-tail"></a>multiple file input for tail
 
 ```bash
-$ tail -n2 report.log sample.txt 
+$ tail -n2 report.log sample.txt
 ==> report.log <==
 Error: something seriously went wrong
 blah blah blah
@@ -496,7 +505,7 @@ blah blah blah
 15) Adios amigo
 
 $ # -q option to avoid filename in output
-$ tail -q -n2 report.log sample.txt 
+$ tail -q -n2 report.log sample.txt
 Error: something seriously went wrong
 blah blah blah
 14) He he he
@@ -519,6 +528,9 @@ blah blah blah
 ## <a name="head"></a>head
 
 ```bash
+$ head --version | head -n1
+head (GNU coreutils) 8.25
+
 $ man head
 HEAD(1)                          User Commands                         HEAD(1)
 
@@ -543,14 +555,14 @@ DESCRIPTION
 * default behavior - display starting 10 lines
 
 ```bash
-$ head sample.txt 
- 1) Hello World!
+$ head sample.txt
+ 1) Hello World
  2) 
  3) Good day
- 4) How do you do?
+ 4) How are you
  5) 
- 6) Just do it
- 7) Believe it!
+ 6) Just do-it
+ 7) Believe it
  8) 
  9) Today is sunny
 10) Not a bit funny
@@ -559,30 +571,30 @@ $ head sample.txt
 * Use `-n` option to control number of lines to filter
 
 ```bash
-$ head -n3 sample.txt 
- 1) Hello World!
+$ head -n3 sample.txt
+ 1) Hello World
  2) 
  3) Good day
 
 $ # some versions of head allow to skip explicit n character
-$ head -4 sample.txt 
- 1) Hello World!
+$ head -4 sample.txt
+ 1) Hello World
  2) 
  3) Good day
- 4) How do you do?
+ 4) How are you
 ```
 
 * when number is prefixed with `-` sign, all lines are fetched except those many lines to end of file
 
 ```bash
 $ # except last 9 lines of file
-$ head -n -9 sample.txt 
- 1) Hello World!
+$ head -n -9 sample.txt
+ 1) Hello World
  2) 
  3) Good day
- 4) How do you do?
+ 4) How are you
  5) 
- 6) Just do it
+ 6) Just do-it
 
 $ # except last 2 lines
 $ seq 13 17 | head -n -2
@@ -615,23 +627,23 @@ Hi the
 #### <a name="multiple-file-input-for-head"></a>multiple file input for head
 
 ```bash
-$ head -n3 report.log sample.txt 
+$ head -n3 report.log sample.txt
 ==> report.log <==
 blah blah
 Warning: something went wrong
 more blah
 
 ==> sample.txt <==
- 1) Hello World!
+ 1) Hello World
  2) 
  3) Good day
 
 $ # -q option to avoid filename in output
-$ head -q -n3 report.log sample.txt 
+$ head -q -n3 report.log sample.txt
 blah blah
 Warning: something went wrong
 more blah
- 1) Hello World!
+ 1) Hello World
  2) 
  3) Good day
 ```
@@ -649,8 +661,8 @@ $ head -n11 sample.txt | tail -n3
 11) No doubt you like it too
 
 $ tail sample.txt | head -n2
- 6) Just do it
- 7) Believe it!
+ 6) Just do-it
+ 7) Believe it
 ```
 
 <br>
